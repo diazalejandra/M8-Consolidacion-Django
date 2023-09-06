@@ -1,0 +1,13 @@
+crispy-bootstrap5==0.7
+Django==4.2.2
+django-bootstrap-v5==1.0.11
+django-crispy-forms==2.0
+psycopg2-binary==2.9.7
+python-dotenv==1.0.0
+requests==2.27.1
+tzdata==2023.3
+urllib3==1.26.8
+virtualenv==20.23.1
+virtualenvwrapper-win==1.2.7
+asgiref==3.7.2
+sqlparse==0.4.4

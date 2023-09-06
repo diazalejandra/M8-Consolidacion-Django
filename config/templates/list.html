@@ -1,0 +1,78 @@
+{%extends 'base.html' %}
+{% block content %}
+<h2 class="text-center my-4 text-uppercase">Gestión de Entregas</h1>
+    <form method="GET">
+        <div class="row">
+            <div class="col">
+                <label for="orderCode">Código Orden</label>
+                <input type="text" id="orderCode" name="orderCode" class="form-control" value="{{ orderCode }}">
+            </div>
+            <div class="col">
+                <label for="city">Ciudad</label>
+                <input type="text" id="city" name="city" class="form-control" value="{{ city }}">
+            </div>
+            <div class="col">
+                <label for="postalCode">Código Postal</label>
+                <input type="text" id="postalCode" name="postalCode" class="form-control" value="{{ postalCode }}">
+            </div>
+            <div class="col">
+                <label for="shipDate">Fecha Entrega Desde</label>
+                <input type="date" id="shipDate" name="shipDate" class="form-control" value="{{ shipDate }}">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-11">
+                <button type="submit" class="btn btn-primary w-100 mt-3">Filtrar</button>
+            </div>
+            <div class="col-1">
+                <a class="btn btn-secondary w-100 mt-3" href="/">Limpiar</a>
+            </div>
+        </div>
+
+        <table class="table table-hover mt-5">
+            <thead class="table-secondary">
+                <tr>
+                    <th>Código de orden</th>
+                    <th>Fecha de Entrega</th>
+                    <th>Fecha de Vencimiento</th>
+                    <th>Estado</th>
+                    <th>Dirección Uno</th>
+                    <th>Ciudad</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in salesorder %}
+                <tr>
+                    <td>{{ order.salesorderid }}</td>
+                    <td>{{ order.shipdate|date:"d-m-Y" }}</td>
+                    <td>{{ order.duedate|date:"d-m-Y" }}</td>
+                    <td>{{ order.status }}</td>
+                    <td>{{ order.shiptoaddressid.addressline1 }}</td>
+                    <td>{{ order.shiptoaddressid.city }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td>No se encontraron registros</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </form>
+    <div class="pagination">
+        <span class="step-links">
+            {% if salesorder.has_previous %}
+            <a href="?page=1&{{ active_filter.urlencode }}">&laquo; primera</a>
+            <a href="?page={{ salesorder.previous_page_number }}&{{ active_filter.urlencode }}">previa</a>
+            {% endif %}
+
+            <span class="current">
+                Página {{ salesorder.number }} de {{ salesorder.paginator.num_pages }}.
+            </span>
+
+            {% if salesorder.has_next %}
+            <a href="?page={{ salesorder.next_page_number }}&{{ active_filter.urlencode }}">siguiente</a>
+            <a href="?page={{ salesorder.paginator.num_pages }}&{{ active_filter.urlencode }}">última &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+    {% endblock%}
